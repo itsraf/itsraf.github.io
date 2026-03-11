@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Spark Tutoring | Math & Science That Clicks</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --cream: #faf8f3;
+    --warm: #f5f0e8;
+    --gold: #e8a020;
+    --gold-light: #f5c842;
+    --teal: #2a7f6f;
+    --teal-light: #3aaa96;
+    --rose: #e05c5c;
+    --mid: #6b6b8a;
+    --border: #e2ddd4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.02em;
+    color: var(--mid); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--teal); color: #fff;
+    padding: 0.5rem 1.25rem; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 5rem 4rem;
+    gap: 4rem;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(232,160,32,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -80px; left: 30%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(42,127,111,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(232,160,32,0.12); border: 1px solid rgba(232,160,32,0.3);
+    color: #b8780e; border-radius: 100px;
+    padding: 0.35rem 1rem; font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 4vw, 4.2rem);
+    line-height: 1.1; font-weight: 700;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--teal);
+  }
+  .hero p {
+    font-size: 1.1rem; line-height: 1.75;
+    color: var(--mid); max-width: 480px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--teal); color: #fff;
+    padding: 0.9rem 2rem; border-radius: 100px;
+    font-weight: 600; font-size: 0.95rem;
+    text-decoration: none; transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(42,127,111,0.3);
+  }
+  .btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(42,127,111,0.35); }
+  .btn-secondary {
+    background: transparent; color: var(--ink);
+    padding: 0.9rem 2rem; border-radius: 100px;
+    border: 1.5px solid var(--border);
+    font-weight: 500; font-size: 0.95rem;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--ink); background: var(--warm); }
+
+  .hero-visual {
+    position: relative; display: flex; justify-content: center; align-items: center;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-card {
+    background: #fff; border-radius: 24px;
+    padding: 2.5rem; width: 100%; max-width: 380px;
+    box-shadow: 0 20px 60px rgba(26,26,46,0.1);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .hero-card-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; margin-bottom: 1.2rem;
+  }
+  .hero-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; margin-bottom: 0.3rem;
+  }
+  .hero-card .role { color: var(--mid); font-size: 0.875rem; margin-bottom: 1.2rem; }
+  .stat-row { display: flex; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+  .stat { text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--teal); }
+  .stat-label { font-size: 0.75rem; color: var(--mid); margin-top: 0.2rem; }
+  .floating-tag {
+    position: absolute;
+    background: #fff; border-radius: 12px;
+    padding: 0.6rem 1rem; font-size: 0.8rem; font-weight: 600;
+    box-shadow: 0 8px 24px rgba(26,26,46,0.12);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .tag-1 { top: -20px; right: -20px; color: var(--teal); }
+  .tag-2 { bottom: 30px; left: -30px; color: var(--gold); }
+
+  /* SECTIONS */
+  section { padding: 6rem 5rem; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--teal);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .section-sub {
+    color: var(--mid); font-size: 1.05rem; line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* HOW IT WORKS */
+  .how { background: var(--warm); }
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; margin-top: 4rem;
+  }
+  .step {
+    background: #fff; border-radius: 20px;
+    padding: 2rem; border: 1px solid var(--border);
+    position: relative; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .step:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,26,46,0.08); }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem; font-weight: 700;
+    color: rgba(232,160,32,0.2); line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .step h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .step p { color: var(--mid); font-size: 0.9rem; line-height: 1.6; }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .service-card {
+    border: 1.5px solid var(--border); border-radius: 20px;
+    padding: 2rem; transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--teal);
+    transform: scaleY(0); transition: transform 0.2s;
+    transform-origin: bottom;
+  }
+  .service-card:hover::before { transform: scaleY(1); }
+  .service-card:hover { border-color: var(--teal); box-shadow: 0 8px 24px rgba(42,127,111,0.1); }
+  .service-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .service-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .service-card p { color: var(--mid); font-size: 0.9rem; line-height: 1.6; }
+  .service-price {
+    display: inline-block; margin-top: 1rem;
+    background: var(--warm); border-radius: 100px;
+    padding: 0.3rem 0.9rem; font-size: 0.82rem; font-weight: 600; color: var(--teal);
+  }
+
+  /* ABOUT */
+  .about { background: var(--ink); color: #fff; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about .section-label { color: var(--gold-light); }
+  .about .section-title { color: #fff; }
+  .about .section-sub { color: rgba(255,255,255,0.65); max-width: 100%; }
+  .about p { color: rgba(255,255,255,0.65); line-height: 1.8; margin-top: 1rem; font-size: 0.95rem; }
+  .about-visual {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px; padding: 2.5rem;
+  }
+  .about-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-style: italic;
+    color: #fff; line-height: 1.5;
+    margin-bottom: 1.5rem;
+    border-left: 3px solid var(--gold);
+    padding-left: 1.25rem;
+  }
+  .about-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.5rem; }
+  .about-tag {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.8);
+    padding: 0.4rem 1rem; border-radius: 100px;
+    font-size: 0.8rem;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials { background: var(--cream); }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .testi-card {
+    background: #fff; border-radius: 20px; padding: 2rem;
+    border: 1px solid var(--border);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .testi-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,26,46,0.08); }
+  .stars { color: var(--gold); font-size: 1rem; margin-bottom: 1rem; letter-spacing: 0.1em; }
+  .testi-text {
+    font-size: 0.95rem; line-height: 1.7; color: var(--ink);
+    font-style: italic; margin-bottom: 1.5rem;
+  }
+  .testi-author { display: flex; align-items: center; gap: 0.75rem; }
+  .testi-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+  }
+  .testi-name { font-weight: 600; font-size: 0.875rem; }
+  .testi-role { color: var(--mid); font-size: 0.8rem; }
+
+  /* BLOG */
+  .blog { background: var(--warm); }
+  .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
+  .blog-card {
+    background: #fff; border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .blog-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,26,46,0.1); }
+  .blog-thumb {
+    height: 160px; display: flex; align-items: center; justify-content: center;
+    font-size: 3rem;
+  }
+  .blog-body { padding: 1.5rem; }
+  .blog-tag {
+    display: inline-block; background: var(--warm);
+    color: var(--teal); font-size: 0.75rem; font-weight: 600;
+    padding: 0.25rem 0.75rem; border-radius: 100px;
+    margin-bottom: 0.75rem;
+  }
+  .blog-card h3 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.5rem; }
+  .blog-card p { font-size: 0.85rem; color: var(--mid); line-height: 1.6; }
+  .blog-date { font-size: 0.78rem; color: var(--mid); margin-top: 1rem; }
+
+  /* BOOKING */
+  .booking {
+    background: linear-gradient(135deg, var(--teal) 0%, #1a5c52 100%);
+    color: #fff; text-align: center;
+  }
+  .booking .section-label { color: rgba(255,255,255,0.6); }
+  .booking .section-title { color: #fff; margin: 0 auto 1rem; max-width: 600px; }
+  .booking .section-sub { color: rgba(255,255,255,0.7); margin: 0 auto 2.5rem; }
+  .calendly-placeholder {
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px; padding: 3rem 2rem; max-width: 600px; margin: 0 auto 2rem;
+  }
+  .calendly-placeholder p { color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; font-size: 1rem; }
+  .btn-white {
+    background: #fff; color: var(--teal);
+    padding: 0.9rem 2.5rem; border-radius: 100px;
+    font-weight: 700; font-size: 1rem;
+    text-decoration: none; display: inline-block;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.2); }
+  .pricing-note { color: rgba(255,255,255,0.65); font-size: 0.9rem; margin-top: 1rem; }
+
+  /* CONTACT */
+  .contact { background: var(--cream); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: #fff; border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 0.75rem 1rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    color: var(--ink); transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--teal); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .form-submit {
+    background: var(--teal); color: #fff;
+    border: none; padding: 0.9rem 2rem; border-radius: 100px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    font-weight: 600; cursor: pointer; transition: all 0.2s;
+    align-self: flex-start;
+  }
+  .form-submit:hover { background: var(--teal-light); transform: translateY(-1px); }
+  .contact-info { margin-top: 2rem; }
+  .contact-info h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 1rem; }
+  .contact-info p { color: var(--mid); line-height: 1.7; margin-bottom: 1.5rem; }
+  .contact-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem; border: 1px solid var(--border);
+    border-radius: 12px; margin-bottom: 0.75rem;
+    background: #fff;
+  }
+  .contact-item-icon { font-size: 1.3rem; }
+  .contact-item-text { font-size: 0.875rem; }
+  .contact-item-label { color: var(--mid); font-size: 0.75rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.5);
+    padding: 2rem 5rem; display: flex;
+    justify-content: space-between; align-items: center;
+    font-size: 0.85rem;
+  }
+  footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: #fff;
+  }
+  .footer-logo span { color: var(--gold); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; text-align: center; }
+    .hero p { margin: 0 auto 2rem; }
+    .hero-actions { justify-content: center; }
+    .hero-visual { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .steps-grid, .services-grid, .testi-grid, .blog-grid { grid-template-columns: 1fr; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#home">Spark<span>Tutoring</span></a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#blog">Blog</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="#booking">Book Free Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="hero-badge">✦ Math & Science Tutoring</div>
+    <h1>Every student has a <em>breakthrough</em> moment.</h1>
+    <p>I'm on a mission to make sure no student gives up on math or science just because they haven't found the right support yet. Let's find yours.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">Book a Free Intro Call</a>
+      <a href="#about" class="btn-secondary">My Story →</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="floating-tag tag-1">🎯 Confidence Builder</div>
+      <div class="floating-tag tag-2">⭐ 5.0 Rated Tutor</div>
+      <div class="hero-card-avatar">🎓</div>
+      <h3>Your Tutor</h3>
+      <div class="role">Electrical Engineer · Math & Science Tutor</div>
+      <p style="font-size:0.875rem;color:var(--mid);line-height:1.6;">From failing math in high school to engineering — now I help students find their own turning point.</p>
+      <div class="stat-row">
+        <div class="stat"><div class="stat-num">50+</div><div class="stat-label">Students Helped</div></div>
+        <div class="stat"><div class="stat-num">5★</div><div class="stat-label">Avg. Rating</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Passion</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="section-label">Simple Process</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;">
+    <div>
+      <h2 class="section-title">Getting started is easy</h2>
+    </div>
+    <p class="section-sub">No pressure, no commitment. Just a conversation to see if we're the right fit for your student.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Free Intro Call</h3>
+      <p>We chat for 15 minutes to understand where your student is, what they need, and what success looks like for them.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Personalized Plan</h3>
+      <p>I build a tailored approach based on your student's learning style, gaps, and goals — not a one-size-fits-all curriculum.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Watch Them Grow</h3>
+      <p>Session by session, we build skills AND confidence. Most students notice a shift in how they feel about math and science within weeks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">What I Offer</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:end;margin-bottom:0;">
+    <div>
+      <h2 class="section-title">Sessions built around your student</h2>
+    </div>
+    <p class="section-sub">Whether online or in-person, every session is focused on understanding — not just memorizing.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🖥️</div>
+      <h3>Online Sessions</h3>
+      <p>Flexible, convenient, and just as effective. We use shared digital whiteboards and screen sharing to work through problems in real time.</p>
+      <div class="service-price">Starting at $55 / session</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📍</div>
+      <h3>In-Person Sessions</h3>
+      <p>Local, face-to-face tutoring for students who learn best with hands-on, in-room engagement and immediate feedback.</p>
+      <div class="service-price">Starting at $65 / session</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📐</div>
+      <h3>Math Tutoring</h3>
+      <p>Algebra, Geometry, Pre-Calc, Calculus, Statistics — I meet students where they are and build a foundation that lasts.</p>
+      <div class="service-price">Middle School → College</div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔬</div>
+      <h3>Science Tutoring</h3>
+      <p>Biology, Chemistry, Physics — breaking down complex concepts into something that actually makes sense, step by step.</p>
+      <div class="service-price">Middle School → College</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div>
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">I've been in your student's shoes</h2>
+      <p>I failed math in high school. Not struggled — failed. And I remember exactly what that felt like: the frustration, the embarrassment, the quiet belief that maybe I just wasn't a "math person."</p>
+      <p>Then I found the right support. Someone who met me where I was, explained things differently, and helped me believe I could do it. That changed everything. I went on to become an electrical engineer.</p>
+      <p>That's not a story I tell to impress — it's the reason I do this. I know what it feels like to be on both sides of that wall. And I know how to help students get over it.</p>
+    </div>
+    <div class="about-visual">
+      <div class="about-quote">"I don't just teach math and science. I help students realize they were capable all along."</div>
+      <div class="about-tags">
+        <span class="about-tag">Electrical Engineer</span>
+        <span class="about-tag">Former College Math Tutor</span>
+        <span class="about-tag">Teaching Assistant</span>
+        <span class="about-tag">Patient & Encouraging</span>
+        <span class="about-tag">Results-Focused</span>
+        <span class="about-tag">Mission-Driven</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div style="text-align:center;">
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">What parents & students say</h2>
+    <p class="section-sub" style="margin:0 auto;">Real feedback from families who've seen the transformation firsthand.</p>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"My daughter went from dreading math homework to actually looking forward to her sessions. The confidence boost alone was worth every penny."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#e8a020,#f5c842);">M</div>
+        <div><div class="testi-name">Maria T.</div><div class="testi-role">Parent of 9th grader</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"My son's physics grade went from a D to a B+ in one semester. More importantly, he stopped saying 'I'm just bad at science.' That shift was huge."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#2a7f6f,#3aaa96);">D</div>
+        <div><div class="testi-name">David R.</div><div class="testi-role">Parent of 11th grader</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">"I finally understand calculus. I thought I would have to retake the class but after just 4 sessions things actually clicked. 100% recommend."</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:linear-gradient(135deg,#e05c5c,#f08080);">J</div>
+        <div><div class="testi-name">Jamie K.</div><div class="testi-role">College freshman</div></div>
+      </div>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:2rem;color:var(--mid);font-size:0.85rem;font-style:italic;">* Testimonials are representative examples. Replace with your real reviews as they come in.</p>
+</section>
+
+<!-- BLOG -->
+<section class="blog" id="blog">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <div class="section-label">Blog</div>
+      <h2 class="section-title">From the tutor's desk</h2>
+    </div>
+    <a href="#blog" class="btn-secondary" style="margin-bottom:0.5rem;">View All Posts →</a>
+  </div>
+  <div class="blog-grid">
+    <div class="blog-card">
+      <div class="blog-thumb" style="background:linear-gradient(135deg,#fff8e6,#fde68a);">📐</div>
+      <div class="blog-body">
+        <span class="blog-tag">Math Tips</span>
+        <h3>Why "I'm just not a math person" is the most dangerous thing a student can say</h3>
+        <p>The stories we tell ourselves shape our outcomes more than our natural ability ever will...</p>
+        <div class="blog-date">Coming soon</div>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-thumb" style="background:linear-gradient(135deg,#e6f7f4,#a7f3d0);">🔬</div>
+      <div class="blog-body">
+        <span class="blog-tag">My Journey</span>
+        <h3>How failing math in high school led me to become an electrical engineer</h3>
+        <p>It wasn't talent or luck. It was one person who believed in me before I believed in myself...</p>
+        <div class="blog-date">Coming soon</div>
+      </div>
+    </div>
+    <div class="blog-card">
+      <div class="blog-thumb" style="background:linear-gradient(135deg,#fce7e7,#fca5a5);">💡</div>
+      <div class="blog-body">
+        <span class="blog-tag">For Parents</span>
+        <h3>5 signs your child needs more than just extra practice — they need confidence</h3>
+        <p>More homework isn't always the answer. Sometimes what's missing is something harder to measure...</p>
+        <div class="blog-date">Coming soon</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+  <div class="section-label">Get Started</div>
+  <h2 class="section-title">Book your free intro call</h2>
+  <p class="section-sub">15 minutes. No commitment. Just a conversation to see if we're the right fit.</p>
+  <div class="calendly-placeholder">
+    <p>📅 Schedule directly using the Calendly link below. Pick a time that works for you — evenings and weekends available.</p>
+    <a href="https://calendly.com" target="_blank" class="btn-white">Open Scheduling Calendar</a>
+    <p style="margin-top:1rem;font-size:0.8rem;opacity:0.6;">Replace this link with your personal Calendly URL</p>
+  </div>
+  <p class="pricing-note">🖥 Online sessions from $55 &nbsp;·&nbsp; 📍 In-person from $65 &nbsp;·&nbsp; First call always free</p>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-grid">
+    <div>
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Send me a message</h2>
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" placeholder="Jane Smith"/>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" placeholder="jane@email.com"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Who needs tutoring?</label>
+          <select>
+            <option>My child (middle school)</option>
+            <option>My child (high school)</option>
+            <option>Myself (college)</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Subject area</label>
+          <select>
+            <option>Math</option>
+            <option>Science</option>
+            <option>Both Math & Science</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tell me a bit more</label>
+          <textarea placeholder="What's going on? What would a win look like for your student?"></textarea>
+        </div>
+        <button class="form-submit">Send Message →</button>
+      </div>
+    </div>
+    <div>
+      <div class="contact-info">
+        <h3>Prefer to reach out directly?</h3>
+        <p>I respond to all messages within 24 hours. Whether you have a question or just want to chat about your student's situation — my inbox is always open.</p>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div>
+            <div class="contact-item-text">your@email.com</div>
+            <div class="contact-item-label">Best for detailed questions</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📱</div>
+          <div>
+            <div class="contact-item-text">(555) 000-0000</div>
+            <div class="contact-item-label">Text or call — response within 24hrs</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div>
+            <div class="contact-item-text">Your City, State</div>
+            <div class="contact-item-label">In-person sessions available locally</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📷</div>
+          <div>
+            <div class="contact-item-text">@yourinstahandle</div>
+            <div class="contact-item-label">Follow for tips & updates</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Spark<span>Tutoring</span></span>
+  <span>© 2026 · Built with purpose</span>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#booking">Book</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll active nav highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current ? 'var(--ink)' : '';
+    });
+  });
+
+  // Form submit placeholder
+  document.querySelector('.form-submit').addEventListener('click', () => {
+    alert('Thanks for reaching out! I\'ll get back to you within 24 hours. 🎓');
+  });
+</script>
+</body>
+</html>

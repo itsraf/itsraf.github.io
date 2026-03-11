@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Blog | SparkTutoring</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --cream: #faf8f3;
+    --warm: #f5f0e8;
+    --gold: #e8a020;
+    --gold-light: #f5c842;
+    --teal: #2a7f6f;
+    --teal-light: #3aaa96;
+    --rose: #e05c5c;
+    --mid: #6b6b8a;
+    --border: #e2ddd4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV — identical to main site */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(250,248,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem; font-weight: 700;
+    color: var(--ink); text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.02em;
+    color: var(--mid); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+  .nav-cta {
+    background: var(--teal); color: #fff;
+    padding: 0.5rem 1.25rem; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+  /* BLOG HERO */
+  .blog-hero {
+    padding: 8rem 5rem 4rem;
+    background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .blog-hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -100px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(232,160,32,0.08) 0%, transparent 65%);
+    border-radius: 50%;
+  }
+  .blog-hero::after {
+    content: '';
+    position: absolute; bottom: -100px; left: 10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(42,127,111,0.12) 0%, transparent 65%);
+    border-radius: 50%;
+  }
+  .blog-hero-inner {
+    max-width: 700px; position: relative; z-index: 1;
+    animation: fadeUp 0.6s ease both;
+  }
+  .blog-label {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(232,160,32,0.15); border: 1px solid rgba(232,160,32,0.3);
+    color: var(--gold-light); border-radius: 100px;
+    padding: 0.35rem 1rem; font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .blog-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 4vw, 3.5rem);
+    font-weight: 700; line-height: 1.15; color: #fff;
+    margin-bottom: 1.25rem;
+  }
+  .blog-hero h1 em { font-style: italic; color: var(--gold-light); }
+  .blog-hero p {
+    font-size: 1.05rem; line-height: 1.75;
+    color: rgba(255,255,255,0.6); max-width: 520px;
+  }
+
+  /* FILTER TABS */
+  .filter-bar {
+    background: var(--warm);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    overflow-x: auto; white-space: nowrap;
+  }
+  .filter-btn {
+    padding: 1rem 1.25rem; font-size: 0.85rem; font-weight: 500;
+    color: var(--mid); background: transparent; border: none;
+    cursor: pointer; border-bottom: 2px solid transparent;
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { color: var(--ink); }
+  .filter-btn.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 600; }
+
+  /* MAIN LAYOUT */
+  .blog-main {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 3rem;
+    padding: 4rem 5rem;
+    align-items: start;
+  }
+
+  /* FEATURED POST */
+  .featured-post {
+    background: #fff; border-radius: 24px;
+    border: 1px solid var(--border);
+    overflow: hidden; margin-bottom: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .featured-post:hover { transform: translateY(-4px); box-shadow: 0 20px 50px rgba(26,26,46,0.1); }
+  .featured-thumb {
+    height: 280px;
+    background: linear-gradient(135deg, var(--ink) 0%, #2a2a4e 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .featured-thumb::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(232,160,32,0.2) 0%, transparent 60%);
+  }
+  .featured-thumb-emoji { font-size: 5rem; position: relative; z-index: 1; }
+  .featured-tag {
+    position: absolute; top: 1.5rem; left: 1.5rem;
+    background: var(--gold); color: #fff;
+    padding: 0.3rem 0.85rem; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .featured-body { padding: 2rem 2.5rem; }
+  .featured-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+  .featured-body p { color: var(--mid); line-height: 1.7; font-size: 0.95rem; margin-bottom: 1.5rem; }
+  .post-meta {
+    display: flex; align-items: center; gap: 1.5rem;
+    font-size: 0.8rem; color: var(--mid);
+  }
+  .post-meta-item { display: flex; align-items: center; gap: 0.4rem; }
+  .read-more {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--teal); font-weight: 600; font-size: 0.9rem;
+    text-decoration: none; transition: gap 0.2s;
+  }
+  .read-more:hover { gap: 0.8rem; }
+
+  /* POST GRID */
+  .posts-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .post-card {
+    background: #fff; border-radius: 20px;
+    border: 1px solid var(--border); overflow: hidden;
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .post-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,26,46,0.08); }
+  .post-thumb {
+    height: 140px; display: flex;
+    align-items: center; justify-content: center; font-size: 2.8rem;
+  }
+  .post-body { padding: 1.25rem 1.5rem; }
+  .post-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem; border-radius: 100px;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 0.6rem;
+  }
+  .tag-math { background: rgba(232,160,32,0.12); color: #b8780e; }
+  .tag-journey { background: rgba(42,127,111,0.1); color: var(--teal); }
+  .tag-parents { background: rgba(224,92,92,0.1); color: var(--rose); }
+  .tag-tips { background: rgba(107,107,138,0.1); color: var(--mid); }
+  .tag-science { background: rgba(42,127,111,0.1); color: var(--teal); }
+  .post-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem; line-height: 1.4; margin-bottom: 0.5rem;
+  }
+  .post-body p { font-size: 0.82rem; color: var(--mid); line-height: 1.6; }
+  .post-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.75rem; color: var(--mid);
+  }
+  .post-read-time { display: flex; align-items: center; gap: 0.3rem; }
+
+  /* WRITE A POST CTA */
+  .write-cta {
+    background: linear-gradient(135deg, var(--teal), #1a5c52);
+    border-radius: 20px; padding: 2rem;
+    color: #fff; margin-bottom: 1.5rem;
+    border: 1px solid transparent;
+  }
+  .write-cta h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff;
+  }
+  .write-cta p { font-size: 0.85rem; color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 1.25rem; }
+  .btn-write {
+    background: #fff; color: var(--teal);
+    padding: 0.6rem 1.25rem; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 700;
+    text-decoration: none; display: inline-block;
+    transition: transform 0.2s;
+  }
+  .btn-write:hover { transform: translateY(-1px); }
+
+  /* SIDEBAR */
+  .sidebar { position: sticky; top: 84px; }
+  .sidebar-card {
+    background: #fff; border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .sidebar-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);
+  }
+
+  /* ABOUT WIDGET */
+  .about-widget { text-align: center; }
+  .about-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; margin: 0 auto 1rem;
+  }
+  .about-widget h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .about-widget p { font-size: 0.82rem; color: var(--mid); line-height: 1.6; margin-bottom: 1rem; }
+  .about-widget a {
+    display: inline-block; background: var(--teal); color: #fff;
+    padding: 0.5rem 1.25rem; border-radius: 100px;
+    font-size: 0.82rem; font-weight: 600; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .about-widget a:hover { background: var(--teal-light); }
+
+  /* CATEGORIES */
+  .category-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .category-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0.75rem; border-radius: 10px;
+    font-size: 0.875rem; cursor: pointer;
+    transition: background 0.15s;
+  }
+  .category-item:hover { background: var(--warm); }
+  .category-count {
+    background: var(--warm); color: var(--mid);
+    padding: 0.2rem 0.6rem; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 600;
+  }
+
+  /* POPULAR POSTS */
+  .popular-post {
+    display: flex; gap: 0.75rem; align-items: flex-start;
+    padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+  }
+  .popular-post:last-child { border-bottom: none; padding-bottom: 0; }
+  .popular-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700;
+    color: rgba(232,160,32,0.3); line-height: 1; flex-shrink: 0;
+    width: 28px;
+  }
+  .popular-post h4 { font-size: 0.85rem; line-height: 1.4; margin-bottom: 0.3rem; }
+  .popular-post span { font-size: 0.75rem; color: var(--mid); }
+
+  /* NEWSLETTER */
+  .newsletter-card {
+    background: var(--warm); border-radius: 20px;
+    border: 1px solid var(--border); padding: 1.5rem;
+  }
+  .newsletter-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; margin-bottom: 0.5rem;
+  }
+  .newsletter-card p { font-size: 0.82rem; color: var(--mid); line-height: 1.6; margin-bottom: 1rem; }
+  .newsletter-input {
+    width: 100%; padding: 0.7rem 1rem;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.875rem;
+    background: #fff; margin-bottom: 0.75rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .newsletter-input:focus { border-color: var(--teal); }
+  .newsletter-btn {
+    width: 100%; background: var(--teal); color: #fff;
+    border: none; padding: 0.7rem; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.875rem;
+    font-weight: 600; cursor: pointer; transition: background 0.2s;
+  }
+  .newsletter-btn:hover { background: var(--teal-light); }
+
+  /* PAGINATION */
+  .pagination {
+    display: flex; gap: 0.5rem; margin-top: 2.5rem;
+    align-items: center;
+  }
+  .page-btn {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.875rem; font-weight: 500; cursor: pointer;
+    border: 1.5px solid var(--border); background: #fff;
+    transition: all 0.15s; font-family: 'DM Sans', sans-serif;
+  }
+  .page-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .page-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.5);
+    padding: 2rem 5rem; display: flex;
+    justify-content: space-between; align-items: center;
+    font-size: 0.85rem; margin-top: 2rem;
+  }
+  footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; }
+  .footer-logo span { color: var(--gold); }
+
+  /* MODAL — Blog Post Reader */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(26,26,46,0.7); backdrop-filter: blur(4px);
+    display: none; align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--cream); border-radius: 24px;
+    max-width: 680px; width: 100%; max-height: 85vh;
+    overflow-y: auto; position: relative;
+    animation: fadeUp 0.3s ease both;
+  }
+  .modal-header {
+    background: var(--ink); padding: 2.5rem;
+    border-radius: 24px 24px 0 0; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    background: rgba(255,255,255,0.1); border: none;
+    color: #fff; width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; font-size: 1.1rem; transition: background 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.2); }
+  .modal-tag {
+    display: inline-block; margin-bottom: 1rem;
+    padding: 0.3rem 0.85rem; border-radius: 100px;
+    font-size: 0.75rem; font-weight: 700;
+    background: rgba(232,160,32,0.2); color: var(--gold-light);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .modal-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem; color: #fff; line-height: 1.25; margin-bottom: 1rem;
+  }
+  .modal-meta { display: flex; gap: 1.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+  .modal-body { padding: 2.5rem; }
+  .modal-body p { color: var(--mid); line-height: 1.85; font-size: 0.95rem; margin-bottom: 1.25rem; }
+  .modal-body h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; color: var(--ink); margin: 1.75rem 0 0.75rem;
+  }
+  .modal-body .coming-soon {
+    background: var(--warm); border: 1.5px dashed var(--border);
+    border-radius: 16px; padding: 2rem; text-align: center; margin-top: 2rem;
+  }
+  .modal-body .coming-soon p { color: var(--mid); font-style: italic; margin: 0; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .blog-hero { padding: 6rem 1.5rem 3rem; }
+    .filter-bar { padding: 0 1.5rem; }
+    .blog-main { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+    .posts-grid { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="index.html">Spark<span>Tutoring</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#how">How It Works</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#testimonials">Reviews</a></li>
+    <li><a href="blog.html" class="active">Blog</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a class="nav-cta" href="index.html#booking">Book Free Call</a>
+</nav>
+
+<!-- BLOG HERO -->
+<div class="blog-hero">
+  <div class="blog-hero-inner">
+    <div class="blog-label">✦ From the Tutor's Desk</div>
+    <h1>Thoughts on learning,<br/><em>confidence,</em> and the journey</h1>
+    <p>Real talk about math, science, tutoring, and what it actually takes for a student to go from frustrated to unstoppable.</p>
+  </div>
+</div>
+
+<!-- FILTER TABS -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterPosts('all', this)">All Posts</button>
+  <button class="filter-btn" onclick="filterPosts('journey', this)">My Journey</button>
+  <button class="filter-btn" onclick="filterPosts('math', this)">Math Tips</button>
+  <button class="filter-btn" onclick="filterPosts('science', this)">Science Tips</button>
+  <button class="filter-btn" onclick="filterPosts('parents', this)">For Parents</button>
+  <button class="filter-btn" onclick="filterPosts('tips', this)">Study Skills</button>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="blog-main">
+
+  <!-- LEFT: POSTS -->
+  <div class="posts-column">
+
+    <!-- FEATURED POST -->
+    <div class="featured-post" onclick="openPost('featured')">
+      <div class="featured-thumb">
+        <span class="featured-tag">✦ Featured</span>
+        <div class="featured-thumb-emoji">🎓</div>
+      </div>
+      <div class="featured-body">
+        <h2>How failing math in high school led me to become an electrical engineer</h2>
+        <p>I didn't just struggle with math — I failed it. And for a long time, I believed that meant something permanent about me. This is the story of the turning point that changed everything, and why it shapes how I show up for every student I work with today.</p>
+        <div class="post-meta">
+          <span class="post-meta-item">📅 Coming soon</span>
+          <span class="post-meta-item">⏱ 6 min read</span>
+          <span class="post-meta-item">🏷 My Journey</span>
+        </div>
+        <br/>
+        <a class="read-more" href="#">Read the story →</a>
+      </div>
+    </div>
+
+    <!-- POST GRID -->
+    <div class="posts-grid" id="posts-grid">
+
+      <div class="post-card" data-category="math" onclick="openPost('math1')">
+        <div class="post-thumb" style="background:linear-gradient(135deg,#fff8e6,#fde68a);">📐</div>
+        <div class="post-body">
+          <span class="post-tag tag-math">Math Tips</span>
+          <h3>Why "I'm just not a math person" is the most dangerous thing a student can say</h3>
+          <p>The stories we tell ourselves shape outcomes more than ability ever will.</p>
+          <div class="post-footer">
+            <span class="post-read-time">⏱ 4 min read</span>
+            <span>Coming soon</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card" data-category="parents" onclick="openPost('parents1')">
+        <div class="post-thumb" style="background:linear-gradient(135deg,#fce7e7,#fca5a5);">👨‍👩‍👧</div>
+        <div class="post-body">
+          <span class="post-tag tag-parents">For Parents</span>
+          <h3>5 signs your child needs more than extra practice — they need confidence</h3>
+          <p>More homework isn't always the answer. Sometimes what's missing is harder to measure.</p>
+          <div class="post-footer">
+            <span class="post-read-time">⏱ 5 min read</span>
+            <span>Coming soon</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card" data-category="tips" onclick="openPost('tips1')">
+        <div class="post-thumb" style="background:linear-gradient(135deg,#e6f0ff,#bfdbfe);">🧠</div>
+        <div class="post-body">
+          <span class="post-tag tag-tips">Study Skills</span>
+          <h3>The one study habit that separates students who improve from those who don't</h3>
+          <p>It's not about how long you study. It's about what you do in the last 10 minutes.</p>
+          <div class="post-footer">
+            <span class="post-read-time">⏱ 3 min read</span>
+            <span>Coming soon</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card" data-category="science" onclick="openPost('science1')">
+        <div class="post-thumb" style="background:linear-gradient(135deg,#e6f7f4,#a7f3d0);">🔬</div>
+        <div class="post-body">
+          <span class="post-tag tag-science">Science Tips</span>
+          <h3>How I explain physics to students who think they hate it (and watch them change their mind)</h3>
+          <p>Physics isn't abstract. It's happening everywhere around you, all the time.</p>
+          <div class="post-footer">
+            <span class="post-read-time">⏱ 5 min read</span>
+            <span>Coming soon</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card" data-category="journey" onclick="openPost('journey2')">
+        <div class="post-thumb" style="background:linear-gradient(135deg,#f3f0ff,#ddd6fe);">✨</div>
+        <div class="post-body">
+          <span class="post-tag tag-journey">My Journey</span>
+          <h3>My first month as a tutor: what I expected vs. what I learned</h3>
+          <p>Starting this side hustle taught me as much about teaching as it did about myself.</p>
+          <div class="post-footer">
+            <span class="post-read-time">⏱ 4 min read</span>
+            <span>Coming soon</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post-card" data-category="math" onclick="openPost('math2')">
+        <div class="post-thumb" style="background:linear-gradient(135deg,#fffbeb,#fef3c7);">🔢</div>
+        <div class="post-body">
+          <span class="post-tag tag-math">Math Tips</span>
+          <h3>Algebra clicks differently when you understand WHY it works, not just how</h3>
+          <p>Most students are taught to follow steps. I teach them to understand the logic behind the steps.</p>
+          <div class="post-footer">
+            <span class="post-read-time">⏱ 4 min read</span>
+            <span>Coming soon</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="pagination">
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn" style="width:auto;padding:0 1rem;">Next →</button>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- ABOUT -->
+    <div class="sidebar-card">
+      <div class="about-widget">
+        <div class="about-avatar">🎓</div>
+        <h4>Your Tutor</h4>
+        <p>Electrical engineer turned tutor. I write about math, science, confidence, and the journey of building something meaningful.</p>
+        <a href="index.html#about">My full story →</a>
+      </div>
+    </div>
+
+    <!-- CATEGORIES -->
+    <div class="sidebar-card">
+      <h3>Browse by Topic</h3>
+      <div class="category-list">
+        <div class="category-item" onclick="filterPosts('all', null)">
+          <span>📚 All Posts</span>
+          <span class="category-count">7</span>
+        </div>
+        <div class="category-item" onclick="filterPosts('journey', null)">
+          <span>✨ My Journey</span>
+          <span class="category-count">2</span>
+        </div>
+        <div class="category-item" onclick="filterPosts('math', null)">
+          <span>📐 Math Tips</span>
+          <span class="category-count">2</span>
+        </div>
+        <div class="category-item" onclick="filterPosts('science', null)">
+          <span>🔬 Science Tips</span>
+          <span class="category-count">1</span>
+        </div>
+        <div class="category-item" onclick="filterPosts('parents', null)">
+          <span>👨‍👩‍👧 For Parents</span>
+          <span class="category-count">1</span>
+        </div>
+        <div class="category-item" onclick="filterPosts('tips', null)">
+          <span>🧠 Study Skills</span>
+          <span class="category-count">1</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- POPULAR -->
+    <div class="sidebar-card">
+      <h3>Most Read</h3>
+      <div class="popular-post">
+        <div class="popular-num">01</div>
+        <div>
+          <h4>How failing math led me to become an engineer</h4>
+          <span>My Journey · 6 min</span>
+        </div>
+      </div>
+      <div class="popular-post">
+        <div class="popular-num">02</div>
+        <div>
+          <h4>Why "I'm not a math person" is dangerous</h4>
+          <span>Math Tips · 4 min</span>
+        </div>
+      </div>
+      <div class="popular-post">
+        <div class="popular-num">03</div>
+        <div>
+          <h4>5 signs your child needs confidence, not practice</h4>
+          <span>For Parents · 5 min</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter-card">
+      <h3>Get new posts by email</h3>
+      <p>No spam — just honest writing about learning, tutoring, and the journey. Whenever I post.</p>
+      <input class="newsletter-input" type="email" placeholder="your@email.com"/>
+      <button class="newsletter-btn" onclick="subscribeNewsletter()">Subscribe →</button>
+    </div>
+
+    <!-- BOOK CTA -->
+    <div class="write-cta" style="margin-top:1.5rem;">
+      <h3>Ready to find your breakthrough?</h3>
+      <p>Book a free 15-min intro call — no commitment, just a conversation.</p>
+      <a href="index.html#booking" class="btn-write">Book Free Call</a>
+    </div>
+
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Spark<span>Tutoring</span></span>
+  <span>© 2026 · Built with purpose</span>
+  <div style="display:flex;gap:1.5rem;">
+    <a href="index.html">Home</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#booking">Book</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</footer>
+
+<!-- BLOG POST MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closePostIfOutside(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closePost()">✕</button>
+      <div class="modal-tag" id="modal-tag">My Journey</div>
+      <h2 id="modal-title">Post Title</h2>
+      <div class="modal-meta">
+        <span>📅 Coming soon</span>
+        <span id="modal-readtime">⏱ 5 min read</span>
+      </div>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  // Post data
+  const posts = {
+    featured: {
+      tag: 'My Journey',
+      title: 'How failing math in high school led me to become an electrical engineer',
+      readtime: '6 min read',
+      body: `
+        <p>I didn't just struggle with math in high school — I failed it. And for a long time, I believed that meant something fundamental and permanent about me. That I was just one of those people who "doesn't get math."</p>
+        <h3>The story I told myself</h3>
+        <p>When you fail at something repeatedly, you start building a narrative around it. Mine was simple: math wasn't for me. I'd sit in class, watch the teacher write equations on the board, and feel a kind of quiet panic — like everyone else in the room understood a language I'd never been taught.</p>
+        <h3>The turning point</h3>
+        <p>Then I found the right support. Someone who didn't just re-explain the same thing louder and slower, but who actually met me where I was. Who asked what I understood, not what I didn't. Who made me realize that my confusion wasn't a character flaw — it was just a gap that could be filled.</p>
+        <h3>Why I tutor</h3>
+        <p>That experience is why I do this. Not to show off a degree, but because I know exactly what it feels like to be on the other side of that wall — and I know what it takes to get over it. Every student I work with is some version of who I used to be. And that keeps me showing up.</p>
+        <div class="coming-soon"><p>✍️ Full post coming soon — check back shortly!</p></div>
+      `
+    },
+    math1: {
+      tag: 'Math Tips',
+      title: "Why \"I'm just not a math person\" is the most dangerous thing a student can say",
+      readtime: '4 min read',
+      body: `<p>The stories we tell ourselves about our own abilities are more powerful than most people realize. When a student decides they are simply "not a math person," they stop trying — not because they can't, but because they've already decided the outcome.</p><div class="coming-soon"><p>✍️ Full post coming soon — check back shortly!</p></div>`
+    },
+    parents1: {
+      tag: 'For Parents',
+      title: '5 signs your child needs more than extra practice — they need confidence',
+      readtime: '5 min read',
+      body: `<p>There's a difference between a student who needs more repetition and a student who has stopped believing they're capable. The interventions are very different. Here's how to tell which situation you're looking at.</p><div class="coming-soon"><p>✍️ Full post coming soon — check back shortly!</p></div>`
+    },
+    tips1: {
+      tag: 'Study Skills',
+      title: "The one study habit that separates students who improve from those who don't",
+      readtime: '3 min read',
+      body: `<p>It's not about how many hours you put in. It's about what you do in the last 10 minutes of a study session — the habit of reviewing what actually stuck, not just what you covered.</p><div class="coming-soon"><p>✍️ Full post coming soon — check back shortly!</p></div>`
+    },
+    science1: {
+      tag: 'Science Tips',
+      title: "How I explain physics to students who think they hate it",
+      readtime: '5 min read',
+      body: `<p>Physics isn't abstract. It's in every car ride, every thrown ball, every light switch. The moment students stop seeing it as equations and start seeing it as the world they live in — everything changes.</p><div class="coming-soon"><p>✍️ Full post coming soon — check back shortly!</p></div>`
+    },
+    journey2: {
+      tag: 'My Journey',
+      title: 'My first month as a tutor: what I expected vs. what I learned',
+      readtime: '4 min read',
+      body: `<p>I thought the hard part would be explaining difficult concepts. Turns out the hard part is helping a student trust themselves enough to try. That was the lesson I didn't expect in month one.</p><div class="coming-soon"><p>✍️ Full post coming soon — check back shortly!</p></div>`
+    },
+    math2: {
+      tag: 'Math Tips',
+      title: "Algebra clicks differently when you understand WHY it works",
+      readtime: '4 min read',
+      body: `<p>Most math education teaches steps. Follow this procedure, get this answer. But when students understand the logic underneath — why we do what we do — the steps stop feeling arbitrary and start feeling inevitable.</p><div class="coming-soon"><p>✍️ Full post coming soon — check back shortly!</p></div>`
+    }
+  };
+
+  function openPost(id) {
+    const post = posts[id];
+    if (!post) return;
+    document.getElementById('modal-tag').textContent = post.tag;
+    document.getElementById('modal-title').textContent = post.title;
+    document.getElementById('modal-readtime').textContent = '⏱ ' + post.readtime;
+    document.getElementById('modal-body').innerHTML = post.body;
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePost() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function closePostIfOutside(e) {
+    if (e.target === document.getElementById('modal-overlay')) closePost();
+  }
+
+  function filterPosts(category, btn) {
+    // Update active tab
+    if (btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+    // Filter cards
+    document.querySelectorAll('.post-card').forEach(card => {
+      const cat = card.dataset.category;
+      card.style.display = (category === 'all' || cat === category) ? 'block' : 'none';
+    });
+  }
+
+  function subscribeNewsletter() {
+    const input = document.querySelector('.newsletter-input');
+    if (input.value.includes('@')) {
+      alert("You're subscribed! 🎉 I'll send new posts directly to " + input.value);
+      input.value = '';
+    } else {
+      alert('Please enter a valid email address.');
+    }
+  }
+
+  // Close modal on Escape key
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePost(); });
+</script>
+</body>
+</html>
