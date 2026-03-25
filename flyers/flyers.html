@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>⚡ Amp'd Up ⚡ Tutoring Flyers — Print Ready</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #e8e8e8;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  /* SCREEN UI */
+  .screen-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #666; text-align: center; margin-bottom: 0.5rem;
+  }
+  .print-btn {
+    display: inline-block;
+    background: #1a1a2e; color: #fff;
+    padding: 0.6rem 1.5rem; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 600;
+    cursor: pointer; border: none;
+    font-family: 'DM Sans', sans-serif;
+    margin: 0.5rem 0.25rem;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: #2a7f6f; }
+  .btn-row { text-align: center; margin-bottom: 1rem; }
+
+  /* ===================== */
+  /* FULL PAGE — 8.5 x 11  */
+  /* ===================== */
+  .flyer-full {
+    width: 8.5in;
+    height: 11in;
+    background: #1a1a2e;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  /* Decorative blobs */
+  .flyer-full .blob1 {
+    position: absolute; top: -80px; right: -80px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,160,32,0.25) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .flyer-full .blob2 {
+    position: absolute; bottom: 200px; left: -100px;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(42,127,111,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .flyer-full .blob3 {
+    position: absolute; bottom: -100px; right: 100px;
+    width: 350px; height: 350px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,160,32,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Geometric accent lines */
+  .flyer-full .accent-line {
+    position: absolute; top: 0; left: 0.9in;
+    width: 4px; height: 100%;
+    background: linear-gradient(to bottom, #e8a020, transparent 60%);
+    opacity: 0.6;
+  }
+
+  .full-top {
+    padding: 0.55in 0.65in 0.3in 0.85in;
+    position: relative; z-index: 1;
+    flex: 1;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  .full-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    background: rgba(232,160,32,0.15);
+    border: 1.5px solid rgba(232,160,32,0.4);
+    color: #f5c842; border-radius: 100px;
+    padding: 0.3rem 1rem; font-size: 0.7rem;
+    font-weight: 800; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 0.35in;
+    width: fit-content;
+  }
+
+  .full-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05in;
+    font-weight: 900;
+    line-height: 1.0;
+    color: #fff;
+    margin-bottom: 0.2in;
+    letter-spacing: -0.02em;
+  }
+  .full-headline .accent { color: #f5c842; font-style: italic; }
+
+  .full-sub {
+    font-size: 0.22in;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.5;
+    max-width: 5.5in;
+    margin-bottom: 0.35in;
+    font-weight: 400;
+  }
+
+  .full-pills {
+    display: flex; flex-wrap: wrap; gap: 0.12in;
+    margin-bottom: 0.3in;
+  }
+  .full-pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.9);
+    padding: 0.1in 0.22in; border-radius: 100px;
+    font-size: 0.16in; font-weight: 600;
+  }
+  .full-pill.gold { background: rgba(232,160,32,0.2); border-color: rgba(232,160,32,0.5); color: #f5c842; }
+
+  /* BOTTOM BAND */
+  .full-bottom {
+    background: #e8a020;
+    padding: 0.28in 0.65in 0.28in 0.85in;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative; z-index: 1;
+    gap: 0.3in;
+  }
+
+  .full-contact { flex: 1; }
+  .full-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.32in; font-weight: 700;
+    color: #1a1a2e; margin-bottom: 0.06in;
+    letter-spacing: -0.01em;
+  }
+  .full-brand span { color: #fff; }
+
+  .contact-grid {
+    display: flex; gap: 0.25in; flex-wrap: wrap;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 0.07in;
+    font-size: 0.155in; font-weight: 600; color: #1a1a2e;
+  }
+
+  .pricing-block {
+    text-align: center;
+    background: rgba(26,26,46,0.15);
+    border-radius: 0.15in;
+    padding: 0.15in 0.25in;
+    flex-shrink: 0;
+  }
+  .pricing-block .price-label { font-size: 0.13in; font-weight: 700; color: #1a1a2e; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.04in; }
+  .pricing-block .price-row { display: flex; gap: 0.2in; }
+  .pricing-block .price { font-family: 'Playfair Display', serif; font-size: 0.3in; font-weight: 900; color: #1a1a2e; line-height: 1; }
+  .pricing-block .price-sub { font-size: 0.11in; color: rgba(26,26,46,0.7); font-weight: 500; }
+
+  .qr-block {
+    display: flex; flex-direction: column; align-items: center; gap: 0.06in;
+    flex-shrink: 0;
+  }
+  .qr-wrap {
+    background: #fff; border-radius: 0.08in;
+    padding: 0.06in;
+    width: 0.85in; height: 0.85in;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .qr-wrap canvas, .qr-wrap img { width: 100% !important; height: 100% !important; }
+  .qr-label { font-size: 0.11in; font-weight: 700; color: #1a1a2e; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* FREE CALL BADGE */
+  .free-badge {
+    position: absolute; top: 0.45in; right: 0.5in;
+    width: 1.3in; height: 1.3in;
+    border-radius: 50%;
+    background: #e8a020;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 2;
+    box-shadow: 0 8px 30px rgba(232,160,32,0.4);
+    transform: rotate(12deg);
+  }
+  .free-badge .free-top { font-size: 0.13in; font-weight: 800; color: #1a1a2e; letter-spacing: 0.05em; text-transform: uppercase; }
+  .free-badge .free-big { font-family: 'Playfair Display', serif; font-size: 0.28in; font-weight: 900; color: #1a1a2e; line-height: 1; }
+  .free-badge .free-bot { font-size: 0.11in; font-weight: 700; color: rgba(26,26,46,0.7); }
+
+  /* ======================= */
+  /* HALF PAGE — 5.5 x 8.5   */
+  /* ======================= */
+  .flyer-half {
+    width: 5.5in;
+    height: 8.5in;
+    background: #faf8f3;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .half-header {
+    background: #1a1a2e;
+    padding: 0.4in 0.45in 0.35in;
+    position: relative; overflow: hidden;
+    flex-shrink: 0;
+  }
+  .half-header .hblob {
+    position: absolute; top: -60px; right: -60px;
+    width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,160,32,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .half-header .hblob2 {
+    position: absolute; bottom: -40px; left: -40px;
+    width: 180px; height: 180px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(42,127,111,0.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .half-eyebrow {
+    display: inline-flex; align-items: center;
+    background: rgba(232,160,32,0.15);
+    border: 1px solid rgba(232,160,32,0.4);
+    color: #f5c842; border-radius: 100px;
+    padding: 0.06in 0.18in; font-size: 0.11in;
+    font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; margin-bottom: 0.18in;
+  }
+  .half-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.62in; font-weight: 900;
+    line-height: 1.0; color: #fff;
+    letter-spacing: -0.02em;
+    position: relative; z-index: 1;
+  }
+  .half-headline .accent { color: #f5c842; font-style: italic; }
+
+  .half-body {
+    padding: 0.3in 0.45in;
+    flex: 1;
+    display: flex; flex-direction: column;
+    gap: 0.22in;
+  }
+
+  .half-tagline {
+    font-size: 0.175in;
+    color: #1a1a2e;
+    line-height: 1.55;
+    font-weight: 400;
+    border-left: 3px solid #e8a020;
+    padding-left: 0.18in;
+  }
+
+  .half-features {
+    display: flex; flex-direction: column; gap: 0.12in;
+  }
+  .half-feature {
+    display: flex; align-items: flex-start; gap: 0.12in;
+  }
+  .half-feature-dot {
+    width: 0.22in; height: 0.22in; border-radius: 50%;
+    background: #2a7f6f;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 0.01in;
+    font-size: 0.12in; color: #fff; font-weight: 800;
+  }
+  .half-feature-text {
+    font-size: 0.155in; color: #1a1a2e; line-height: 1.4; font-weight: 500;
+  }
+  .half-feature-text strong { color: #2a7f6f; }
+
+  .half-pricing {
+    display: flex; gap: 0.15in;
+  }
+  .half-price-card {
+    flex: 1; border-radius: 0.12in;
+    padding: 0.15in 0.18in;
+    text-align: center;
+  }
+  .half-price-card.online { background: #1a1a2e; }
+  .half-price-card.inperson { background: #2a7f6f; }
+  .half-price-card .pc-label { font-size: 0.1in; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.04in; }
+  .half-price-card .pc-price { font-family: 'Playfair Display', serif; font-size: 0.42in; font-weight: 900; color: #fff; line-height: 1; }
+  .half-price-card .pc-sub { font-size: 0.1in; color: rgba(255,255,255,0.6); font-weight: 500; }
+
+  .half-footer {
+    background: #e8a020;
+    padding: 0.2in 0.45in;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 0.2in;
+    flex-shrink: 0;
+  }
+  .half-contact { flex: 1; }
+  .half-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.22in; font-weight: 700;
+    color: #1a1a2e; margin-bottom: 0.05in;
+  }
+  .half-brand span { color: #fff; }
+  .half-contact-items { display: flex; flex-direction: column; gap: 0.04in; }
+  .half-contact-item { font-size: 0.125in; font-weight: 600; color: #1a1a2e; }
+
+  .half-qr { display: flex; flex-direction: column; align-items: center; gap: 0.05in; flex-shrink: 0; }
+  .half-qr-wrap {
+    background: #fff; border-radius: 0.06in; padding: 0.05in;
+    width: 0.75in; height: 0.75in;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .half-qr-wrap canvas, .half-qr-wrap img { width: 100% !important; height: 100% !important; }
+  .half-qr-label { font-size: 0.1in; font-weight: 700; color: #1a1a2e; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* PRINT STYLES */
+  @media print {
+    body { background: none; padding: 0; gap: 0; }
+    .screen-label, .btn-row, .print-instructions { display: none !important; }
+    .flyer-full, .flyer-half { box-shadow: none; page-break-after: always; }
+    .flyer-full { width: 8.5in; height: 11in; }
+    .flyer-half { width: 5.5in; height: 8.5in; }
+  }
+</style>
+</head>
+<body>
+
+<div class="print-instructions" style="background:#1a1a2e;color:#fff;padding:1rem 2rem;border-radius:12px;text-align:center;max-width:700px;">
+  <p style="font-weight:700;font-size:1rem;margin-bottom:0.5rem;">🖨️ How to print these flyers</p>
+  <p style="font-size:0.85rem;opacity:0.75;line-height:1.6;">Use <strong>Ctrl+P</strong> (or Cmd+P on Mac) → Set paper size to <strong>Letter (8.5×11)</strong> → Set margins to <strong>None</strong> → Enable <strong>Background graphics</strong> in More Settings → Print. The full page prints as-is. For half-page, print and cut in half.</p>
+</div>
+
+<div class="btn-row">
+  <button class="print-btn" onclick="window.print()">🖨️ Print Both Flyers</button>
+</div>
+
+<!-- ======================== -->
+<!--   FULL PAGE — 8.5 x 11  -->
+<!-- ======================== -->
+<div>
+  <p class="screen-label">📄 Full Page Flyer — 8.5" × 11" — Bulletin Boards & Libraries</p>
+  <div class="flyer-full">
+    <div class="blob1"></div>
+    <div class="blob2"></div>
+    <div class="blob3"></div>
+    <div class="accent-line"></div>
+
+    <!-- FREE CALL BADGE -->
+    <div class="free-badge">
+      <span class="free-top">Free</span>
+      <span class="free-big">Intro</span>
+      <span class="free-bot">Call</span>
+    </div>
+
+    <div class="full-top">
+      <div class="full-eyebrow">✦ Math & Science Tutoring</div>
+      <div class="full-headline">
+        Your student's<br/>
+        <span class="accent">breakthrough</span><br/>
+        starts here.
+      </div>
+      <div class="full-sub">
+        Struggling with math or science? I help students go from frustrated and stuck to confident and performing — because I've been in their shoes.
+      </div>
+      <div class="full-pills">
+        <span class="full-pill gold">✓ Free Intro Call</span>
+        <span class="full-pill">✓ Middle & High School</span>
+        <span class="full-pill">✓ Online & In-Person</span>
+        <span class="full-pill">✓ Patient & Encouraging</span>
+        <span class="full-pill">✓ Results-Focused</span>
+      </div>
+    </div>
+
+    <div class="full-bottom">
+      <div class="full-contact">
+        <div class="full-brand">⚡ Amp'd Up⚡<span>Tutoring</span></div>
+        <div class="contact-grid">
+          <div class="contact-item">📧 thisampedup@gmail.com</div>
+          <div class="contact-item">📱 (401) 903-0594</div>
+          <!--<div class="contact-item">📷 @yourinstahandle</div>-->
+          <div class="contact-item">🌐 yourusername.github.io</div>
+        </div>
+      </div>
+
+      <div class="pricing-block">
+        <div class="price-label">Sessions from</div>
+        <div class="price-row">
+          <div>
+            <div class="price">$55</div>
+            <div class="price-sub">Online</div>
+          </div>
+          <div style="font-size:0.2in;color:rgba(26,26,46,0.4);align-self:center;">·</div>
+          <div>
+            <div class="price">$65</div>
+            <div class="price-sub">In-Person</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="qr-block">
+        <div class="qr-wrap" id="qr-full"></div>
+        <div class="qr-label">Scan to Book</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================== -->
+<!--  HALF PAGE — 5.5 x 8.5    -->
+<!-- ========================== -->
+<div>
+  <p class="screen-label">📄 Half Page Flyer — 5.5" × 8.5" — Mailboxes & Windshields</p>
+  <div class="flyer-half">
+
+    <div class="half-header">
+      <div class="hblob"></div>
+      <div class="hblob2"></div>
+      <div class="half-eyebrow">✦ Math & Science Tutoring</div>
+      <div class="half-headline">
+        Every student<br/>has a <span class="accent">break-<br/>through</span> moment.
+      </div>
+    </div>
+
+    <div class="half-body">
+      <div class="half-tagline">
+        I'm on a mission to make sure no student gives up on math or science just because they haven't found the right support yet.
+      </div>
+
+      <div class="half-features">
+        <div class="half-feature">
+          <div class="half-feature-dot">✓</div>
+          <div class="half-feature-text"><strong>Grades go up</strong> — targeted help that fills the real gaps</div>
+        </div>
+        <div class="half-feature">
+          <div class="half-feature-dot">✓</div>
+          <div class="half-feature-text"><strong>Confidence grows</strong> — students stop dreading math & science</div>
+        </div>
+        <div class="half-feature">
+          <div class="half-feature-dot">✓</div>
+          <div class="half-feature-text"><strong>Free intro call</strong> — no commitment, just a conversation</div>
+        </div>
+        <div class="half-feature">
+          <div class="half-feature-dot">✓</div>
+          <div class="half-feature-text"><strong>Online & in-person</strong> — flexible scheduling available</div>
+        </div>
+      </div>
+
+      <div class="half-pricing">
+        <div class="half-price-card online">
+          <div class="pc-label">🖥 Online</div>
+          <div class="pc-price">$55</div>
+          <div class="pc-sub">per session</div>
+        </div>
+        <div class="half-price-card inperson">
+          <div class="pc-label">📍 In-Person</div>
+          <div class="pc-price">$65</div>
+          <div class="pc-sub">per session</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="half-footer">
+      <div class="half-contact">
+        <div class="half-brand">⚡ Amp'd Up ⚡ <span>Tutoring⚡</span></a><span>Tutoring</span></div>
+        <div class="half-contact-items">
+          <div class="half-contact-item">📧 your@email.com</div>
+          <div class="half-contact-item">📱 (555) 000-0000</div>
+          <div class="half-contact-item">📷 @yourinstahandle</div>
+        </div>
+      </div>
+      <div class="half-qr">
+        <div class="half-qr-wrap" id="qr-half"></div>
+        <div class="half-qr-label">Scan to Book</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Generate QR codes pointing to your website
+  const YOUR_URL = "https://yourusername.github.io";
+
+  function makeQR(elementId, size) {
+    new QRCode(document.getElementById(elementId), {
+      text: YOUR_URL,
+      width: size,
+      height: size,
+      colorDark: "#1a1a2e",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+
+  window.addEventListener('load', () => {
+    makeQR("qr-full", 90);
+    makeQR("qr-half", 78);
+  });
+</script>
+</body>
+</html>
