@@ -440,7 +440,7 @@
     <p> I am passionate about giving students the confidence, tools and unlock their academic potential.</p>
     <div class="hero-actions">
       <a href="#booking" class="btn-primary">Book a Free Intro Call</a>
-      <a href="#about" class="btn-secondary">My Story →</a>
+      <a href="#about" class="btn-secondary">About Me →</a>
     </div>
   </div>
   <div class="hero-visual">
@@ -651,49 +651,67 @@
   <p class="pricing-note">🖥 Online sessions from $55 &nbsp;·&nbsp; 📍 In-person from $65 &nbsp;·&nbsp; First call always free</p>
 </section>
 
+
+<!--<form action ="https://formspree.io/f/xreoqnnr" 
+      method="POST">
+      <h1>Contact Form</h1>
+      <input type="text" name = name placeholder="jane smith">
+      <input type ="email" placeholder="jane@email.com">
+      <button type ="submit">Send Message</button> 
+</form>-->
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="contact-grid">
-    <div>
-      <div class="section-label">Get In Touch</div>
-      <h2 class="section-title">Send me a message</h2>
-      <div class="contact-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" placeholder="Jane Smith"/>
-          </div>
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" placeholder="jane@email.com"/>
-          </div>
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Send me a message</h2>
+    <form 
+      action="https://formspree.io/f/xreoqnnr" 
+      method="POST"
+      >
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" name="name" placeholder="Jane Smith"/>
         </div>
         <div class="form-group">
-          <label>Who needs tutoring?</label>
-          <select>
-            <option>My child (middle school)</option>
-            <option>My child (high school)</option>
-            <option>Myself (college)</option>
-            <option>Other</option>
-          </select>
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="jane@email.com"/>
         </div>
-        <div class="form-group">
-          <label>Subject area</label>
-          <select>
-            <option>Math</option>
-            <option>Science</option>
-            <option>Both Math & Science</option>
-            <option>Not sure yet</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Tell me a bit more</label>
-          <textarea placeholder="What's going on? What would like to improve and achieve?"></textarea>
-        </div>
-        <button class="form-submit">Send Message →</button>
       </div>
+
+      <div class="form-group">
+        <label>Who needs tutoring?</label>
+        <!-- name="who" labels this dropdown in your email -->
+        <select name="who">
+          <option>My child (middle school)</option>
+          <option>My child (high school)</option>
+          <option>Myself (college)</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Subject area</label>
+        <!-- name="subject" labels this dropdown in your email -->
+        <select name="subject">
+          <option>Math</option>
+          <option>Science</option>
+          <option>Both Math & Science</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Tell me a bit more</label>
+        <!-- name="message" labels the message box in your email -->
+        <textarea name="message" placeholder="What's going on? What would a win look like for your student?"></textarea>
+      </div>
+
+      <!-- type="submit" is important — it tells the form to send when clicked -->
+      <button type="submit" class="form-submit">Send Message →</button>
+
+    </form>
     </div>
-    <div>
       <div class="contact-info">
         <h3>Prefer to reach out directly?</h3>
         <p>I respond to all messages within 24 hours. Whether you have a question or just want to chat about your situation — my inbox is always open.</p>
@@ -756,10 +774,10 @@
     });
   });
 
-  // Form submit placeholder
+  /*// Form submit placeholder
   document.querySelector('.form-submit').addEventListener('click', () => {
     alert('Thanks for reaching out! I\'ll get back to you within 24 hours. 🎓');
-  });
+  });*/
 </script>
 </body>
 </html>
