@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SparkTutoring Flyers v2 — Print Ready</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #d6d6d6;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .screen-ui {
+    background: #1a1a2e; color: #fff;
+    padding: 1rem 2rem; border-radius: 14px;
+    text-align: center; max-width: 720px; width: 100%;
+  }
+  .screen-ui p { font-size: 0.85rem; line-height: 1.6; opacity: 0.8; margin-top: 0.4rem; }
+  .screen-ui strong { opacity: 1; }
+  .screen-label {
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: #555;
+    text-align: center; margin-bottom: 0.4rem;
+  }
+  .divider {
+    width: 100%; max-width: 8.5in;
+    border: none; border-top: 2px dashed #bbb;
+    margin: 1rem 0 0;
+  }
+  .print-btn {
+    background: #2a7f6f; color: #fff;
+    padding: 0.6rem 1.6rem; border-radius: 100px;
+    font-size: 0.85rem; font-weight: 700;
+    cursor: pointer; border: none;
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 0.75rem;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: #3aaa96; }
+
+  /* ============================================ */
+  /*  FLYER A — COMMUNITY / INVITING              */
+  /*  Full page 8.5 × 11                          */
+  /* ============================================ */
+  .flyer-community {
+    width: 8.5in;
+    height: 11in;
+    background: #fffdf7;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+
+  /* Warm sun rays background */
+  .comm-rays {
+    position: absolute; top: -1in; left: 50%;
+    transform: translateX(-50%);
+    width: 14in; height: 7in;
+    background: conic-gradient(
+      from 260deg at 50% 0%,
+      rgba(255,210,100,0.08) 0deg,
+      rgba(255,255,255,0) 18deg,
+      rgba(255,210,100,0.07) 36deg,
+      rgba(255,255,255,0) 54deg,
+      rgba(255,210,100,0.06) 72deg,
+      rgba(255,255,255,0) 90deg,
+      rgba(255,210,100,0.08) 108deg
+    );
+    pointer-events: none;
+  }
+
+  /* Top color band */
+  .comm-top-band {
+    background: #2a7f6f;
+    height: 0.12in;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  /* Header area */
+  .comm-header {
+    padding: 0.45in 0.65in 0.3in;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative; z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .comm-logo-area {}
+  .comm-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.28in; font-weight: 700;
+    color: #1a1a2e; letter-spacing: -0.01em;
+  }
+  .comm-logo span { color: #2a7f6f; }
+  .comm-tagline-small {
+    font-size: 0.12in; color: #888; font-weight: 500;
+    margin-top: 0.03in; letter-spacing: 0.02em;
+  }
+
+  .comm-free-pill {
+    background: #e8a020; color: #fff;
+    padding: 0.08in 0.22in; border-radius: 100px;
+    font-size: 0.13in; font-weight: 800;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    margin-top: 0.05in;
+  }
+
+  /* Hero area */
+  .comm-hero {
+    padding: 0.1in 0.65in 0.25in;
+    position: relative; z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .comm-headline {
+    font-family: 'Fraunces', serif;
+    font-size: 0.82in;
+    font-weight: 700;
+    line-height: 1.0;
+    color: #1a1a2e;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.18in;
+  }
+  .comm-headline .line2 {
+    color: #2a7f6f;
+    font-style: italic;
+  }
+  .comm-headline .line3 {
+    color: #e8a020;
+  }
+
+  .comm-intro {
+    font-size: 0.195in;
+    color: #444;
+    line-height: 1.6;
+    max-width: 5.8in;
+    font-weight: 400;
+  }
+
+  /* Story card */
+  .comm-story {
+    margin: 0.2in 0.65in;
+    background: #f0faf8;
+    border: 1.5px solid #c5e8e2;
+    border-radius: 0.18in;
+    padding: 0.25in 0.3in;
+    display: flex;
+    gap: 0.2in;
+    align-items: flex-start;
+    position: relative; z-index: 1;
+    flex-shrink: 0;
+  }
+  .comm-story-icon {
+    font-size: 0.4in;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .comm-story-text {
+    font-size: 0.155in;
+    color: #2a5a52;
+    line-height: 1.6;
+    font-style: italic;
+    font-weight: 400;
+  }
+  .comm-story-text strong {
+    font-style: normal;
+    font-weight: 700;
+    color: #1a3a35;
+  }
+
+  /* Check list */
+  .comm-checks {
+    padding: 0 0.65in;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.1in 0.3in;
+    position: relative; z-index: 1;
+    flex-shrink: 0;
+  }
+  .comm-check {
+    display: flex; align-items: center; gap: 0.1in;
+    font-size: 0.155in; color: #333; font-weight: 500;
+  }
+  .comm-check-icon {
+    width: 0.22in; height: 0.22in;
+    background: #2a7f6f; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 0.12in; font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  /* Audience row */
+  .comm-audience {
+    margin: 0.18in 0.65in 0;
+    display: flex; gap: 0.12in;
+    position: relative; z-index: 1;
+    flex-shrink: 0;
+  }
+  .comm-aud-chip {
+    flex: 1; text-align: center;
+    padding: 0.12in 0.1in;
+    border-radius: 0.12in;
+    font-size: 0.13in; font-weight: 700;
+    border: 1.5px solid;
+  }
+  .aud-mid { background: #fff8ed; border-color: #f5c842; color: #b8780e; }
+  .aud-high { background: #f0faf8; border-color: #2a7f6f; color: #1a5c52; }
+  .aud-col { background: #f5f0ff; border-color: #a78bfa; color: #5b21b6; }
+
+  /* Bottom footer */
+  .comm-footer {
+    margin-top: auto;
+    background: #1a1a2e;
+    padding: 0.25in 0.65in;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.2in;
+    flex-shrink: 0;
+  }
+  .comm-contact { flex: 1; }
+  .comm-contact-title {
+    font-size: 0.14in; font-weight: 800;
+    color: #e8a020; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 0.08in;
+  }
+  .comm-contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.04in 0.2in;
+  }
+  .comm-contact-item {
+    font-size: 0.135in; color: rgba(255,255,255,0.8); font-weight: 500;
+  }
+
+  .comm-price-badge {
+    text-align: center;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 0.12in;
+    padding: 0.12in 0.2in;
+    flex-shrink: 0;
+  }
+  .comm-price-badge .cpb-label {
+    font-size: 0.11in; color: rgba(255,255,255,0.5);
+    text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700;
+    margin-bottom: 0.05in;
+  }
+  .comm-price-badge .cpb-prices {
+    display: flex; gap: 0.15in; align-items: center;
+  }
+  .comm-price-badge .cpb-price {
+    font-family: 'Fraunces', serif;
+    font-size: 0.38in; font-weight: 700; color: #fff; line-height: 1;
+  }
+  .comm-price-badge .cpb-sub {
+    font-size: 0.1in; color: rgba(255,255,255,0.5); font-weight: 500;
+    margin-top: 0.02in;
+  }
+  .comm-price-badge .cpb-dot {
+    font-size: 0.18in; color: rgba(255,255,255,0.2);
+  }
+
+  .comm-qr { display: flex; flex-direction: column; align-items: center; gap: 0.06in; flex-shrink: 0; }
+  .comm-qr-wrap {
+    background: #fff; border-radius: 0.07in; padding: 0.05in;
+    width: 0.85in; height: 0.85in;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .comm-qr-wrap canvas, .comm-qr-wrap img { width: 100% !important; height: 100% !important; }
+  .comm-qr-label { font-size: 0.1in; font-weight: 700; color: rgba(255,255,255,0.6); letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* ============================================ */
+  /*  FLYER B — BOLD MINIMAL / PROFESSIONAL       */
+  /*  Full page 8.5 × 11                          */
+  /* ============================================ */
+  .flyer-minimal {
+    width: 8.5in;
+    height: 11in;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+
+  /* Left accent stripe */
+  .min-stripe {
+    position: absolute; top: 0; left: 0;
+    width: 0.18in; height: 100%;
+    background: #e8a020;
+  }
+
+  /* Top right corner block */
+  .min-corner {
+    position: absolute; top: 0; right: 0;
+    width: 3in; height: 3in;
+    background: #f7f7f7;
+    clip-path: polygon(100% 0, 100% 100%, 0 0);
+  }
+
+  .min-body {
+    padding: 0.7in 0.75in 0.5in 0.55in;
+    display: flex; flex-direction: column;
+    flex: 1; position: relative; z-index: 1;
+  }
+
+  .min-top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 0.5in;
+  }
+
+  .min-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.18in; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: #1a1a2e;
+  }
+  .min-logo span { color: #e8a020; }
+
+  .min-subject-tags {
+    display: flex; gap: 0.08in;
+  }
+  .min-stag {
+    border: 1.5px solid #ddd;
+    padding: 0.06in 0.15in; border-radius: 100px;
+    font-size: 0.11in; font-weight: 700;
+    color: #888; letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Giant headline */
+  .min-headline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.05in;
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: #1a1a2e;
+    margin-bottom: 0.08in;
+  }
+  .min-headline .hl-outline {
+    -webkit-text-stroke: 2px #1a1a2e;
+    color: transparent;
+  }
+  .min-headline .hl-gold { color: #e8a020; }
+
+  .min-rule {
+    width: 0.6in; height: 3px;
+    background: #e8a020; margin: 0.22in 0;
+    flex-shrink: 0;
+  }
+
+  .min-statement {
+    font-size: 0.22in;
+    font-weight: 400;
+    line-height: 1.55;
+    color: #444;
+    max-width: 5.5in;
+    margin-bottom: 0.35in;
+  }
+  .min-statement strong { color: #1a1a2e; font-weight: 700; }
+
+  /* Stats row */
+  .min-stats {
+    display: flex; gap: 0in;
+    margin-bottom: 0.4in;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    padding: 0.22in 0;
+  }
+  .min-stat {
+    flex: 1; padding-right: 0.3in;
+    border-right: 1px solid #eee;
+    margin-right: 0.3in;
+  }
+  .min-stat:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+  .min-stat-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.5in; font-weight: 800;
+    color: #1a1a2e; line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .min-stat-num span { color: #e8a020; }
+  .min-stat-label { font-size: 0.13in; color: #888; font-weight: 500; margin-top: 0.03in; line-height: 1.3; }
+
+  /* Services row */
+  .min-services {
+    display: flex; gap: 0.12in; margin-bottom: auto;
+  }
+  .min-service {
+    flex: 1; padding: 0.2in;
+    border: 1.5px solid #eee; border-radius: 0.12in;
+  }
+  .min-service.featured { background: #1a1a2e; border-color: #1a1a2e; }
+  .min-service-icon { font-size: 0.28in; margin-bottom: 0.08in; }
+  .min-service h3 { font-size: 0.155in; font-weight: 700; color: #1a1a2e; margin-bottom: 0.04in; }
+  .min-service.featured h3 { color: #fff; }
+  .min-service p { font-size: 0.125in; color: #888; line-height: 1.4; }
+  .min-service.featured p { color: rgba(255,255,255,0.6); }
+  .min-service-price {
+    margin-top: 0.1in; font-size: 0.18in; font-weight: 800;
+    color: #e8a020; font-family: 'DM Sans', sans-serif;
+  }
+
+  /* Bottom bar */
+  .min-footer {
+    border-top: 3px solid #1a1a2e;
+    padding: 0.22in 0.75in 0.22in 0.55in;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 0.3in;
+    flex-shrink: 0;
+    background: #fff;
+    position: relative; z-index: 1;
+  }
+
+  .min-contact-row { display: flex; gap: 0.25in; flex-wrap: wrap; align-items: center; }
+  .min-contact-item {
+    font-size: 0.135in; font-weight: 600; color: #1a1a2e;
+    display: flex; align-items: center; gap: 0.07in;
+  }
+  .min-contact-item .icon { color: #e8a020; font-style: normal; }
+
+  .min-cta-block { display: flex; align-items: center; gap: 0.2in; flex-shrink: 0; }
+  .min-cta-text { text-align: right; }
+  .min-cta-text .cta-big {
+    font-size: 0.15in; font-weight: 800; color: #1a1a2e;
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .min-cta-text .cta-sub { font-size: 0.11in; color: #888; font-weight: 500; }
+
+  .min-qr { display: flex; flex-direction: column; align-items: center; gap: 0.04in; }
+  .min-qr-wrap {
+    background: #1a1a2e; border-radius: 0.08in; padding: 0.06in;
+    width: 0.85in; height: 0.85in;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .min-qr-wrap canvas, .min-qr-wrap img { width: 100% !important; height: 100% !important; }
+  .min-qr-label { font-size: 0.1in; font-weight: 700; color: #888; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* ============================================ */
+  /*  HALF PAGE VERSIONS  5.5 × 8.5              */
+  /* ============================================ */
+
+  /* Community half */
+  .flyer-community-half {
+    width: 5.5in; height: 8.5in;
+    background: #fffdf7;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .comm-half-band { background: #2a7f6f; height: 0.1in; flex-shrink: 0; }
+  .comm-half-header {
+    background: #2a7f6f;
+    padding: 0.35in 0.4in 0.35in;
+    position: relative; overflow: hidden; flex-shrink: 0;
+  }
+  .comm-half-header::after {
+    content: '';
+    position: absolute; bottom: -30px; right: -30px;
+    width: 150px; height: 150px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    pointer-events: none;
+  }
+  .comm-half-eyebrow {
+    font-size: 0.1in; font-weight: 800; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.6);
+    margin-bottom: 0.12in;
+  }
+  .comm-half-headline {
+    font-family: 'Fraunces', serif;
+    font-size: 0.58in; font-weight: 700;
+    line-height: 1.0; color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .comm-half-headline em { color: #f5c842; font-style: italic; }
+
+  .comm-half-body {
+    padding: 0.28in 0.4in;
+    flex: 1; display: flex; flex-direction: column; gap: 0.2in;
+  }
+  .comm-half-intro {
+    font-size: 0.155in; color: #444; line-height: 1.6;
+    border-left: 3px solid #e8a020; padding-left: 0.15in;
+  }
+  .comm-half-checks { display: flex; flex-direction: column; gap: 0.1in; }
+  .comm-half-check {
+    display: flex; align-items: center; gap: 0.1in;
+    font-size: 0.145in; color: #333; font-weight: 500;
+  }
+  .comm-half-check-dot {
+    width: 0.2in; height: 0.2in; border-radius: 50%;
+    background: #2a7f6f; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.11in; font-weight: 800; flex-shrink: 0;
+  }
+  .comm-half-chips {
+    display: flex; gap: 0.08in; flex-wrap: wrap;
+  }
+  .comm-half-chip {
+    padding: 0.06in 0.14in; border-radius: 100px;
+    font-size: 0.115in; font-weight: 700; border: 1.5px solid;
+  }
+  .comm-half-footer {
+    background: #1a1a2e;
+    padding: 0.2in 0.4in;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 0.15in; flex-shrink: 0;
+  }
+  .comm-half-contact { flex: 1; }
+  .comm-half-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.2in; font-weight: 700; color: #fff; margin-bottom: 0.07in;
+  }
+  .comm-half-brand span { color: #e8a020; }
+  .comm-half-items { display: flex; flex-direction: column; gap: 0.04in; }
+  .comm-half-item { font-size: 0.12in; color: rgba(255,255,255,0.75); font-weight: 500; }
+  .comm-half-qr { display: flex; flex-direction: column; align-items: center; gap: 0.05in; flex-shrink: 0; }
+  .comm-half-qr-wrap {
+    background: #fff; border-radius: 0.06in; padding: 0.04in;
+    width: 0.72in; height: 0.72in;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .comm-half-qr-wrap canvas, .comm-half-qr-wrap img { width: 100% !important; height: 100% !important; }
+  .comm-half-qr-label { font-size: 0.09in; font-weight: 700; color: rgba(255,255,255,0.55); letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* Minimal half */
+  .flyer-minimal-half {
+    width: 5.5in; height: 8.5in;
+    background: #fff;
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  }
+  .min-half-stripe {
+    position: absolute; top: 0; left: 0;
+    width: 0.14in; height: 100%; background: #e8a020;
+  }
+  .min-half-body {
+    padding: 0.5in 0.5in 0.4in 0.44in;
+    display: flex; flex-direction: column; flex: 1;
+    position: relative; z-index: 1;
+  }
+  .min-half-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.14in; font-weight: 800;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: #1a1a2e; margin-bottom: 0.4in;
+  }
+  .min-half-logo span { color: #e8a020; }
+  .min-half-headline {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72in; font-weight: 800;
+    line-height: 0.95; letter-spacing: -0.04em;
+    color: #1a1a2e; margin-bottom: 0.06in;
+  }
+  .min-half-headline .outline {
+    -webkit-text-stroke: 2px #1a1a2e; color: transparent;
+  }
+  .min-half-headline .gold { color: #e8a020; }
+  .min-half-rule { width: 0.45in; height: 3px; background: #e8a020; margin: 0.18in 0; }
+  .min-half-statement {
+    font-size: 0.165in; font-weight: 400; line-height: 1.6;
+    color: #555; margin-bottom: 0.28in;
+  }
+  .min-half-statement strong { color: #1a1a2e; font-weight: 700; }
+  .min-half-prices {
+    display: flex; gap: 0.1in; margin-bottom: 0.22in;
+  }
+  .min-half-price {
+    flex: 1; border: 1.5px solid #eee; border-radius: 0.1in;
+    padding: 0.15in; text-align: center;
+  }
+  .min-half-price.dark { background: #1a1a2e; border-color: #1a1a2e; }
+  .min-half-price .mhp-icon { font-size: 0.2in; margin-bottom: 0.04in; }
+  .min-half-price .mhp-num { font-size: 0.42in; font-weight: 800; color: #e8a020; line-height: 1; letter-spacing: -0.03em; }
+  .min-half-price .mhp-type { font-size: 0.12in; font-weight: 600; color: #888; margin-top: 0.02in; }
+  .min-half-price.dark .mhp-type { color: rgba(255,255,255,0.5); }
+  .min-half-tags { display: flex; flex-wrap: wrap; gap: 0.07in; }
+  .min-half-tag {
+    padding: 0.06in 0.13in; border-radius: 100px;
+    font-size: 0.11in; font-weight: 700;
+    border: 1.5px solid #ddd; color: #666;
+  }
+  .min-half-footer {
+    border-top: 2px solid #1a1a2e;
+    padding: 0.18in 0.5in 0.18in 0.44in;
+    display: flex; align-items: center;
+    justify-content: space-between; gap: 0.15in; flex-shrink: 0;
+    background: #fff; position: relative; z-index: 1;
+  }
+  .min-half-contact { flex: 1; display: flex; flex-direction: column; gap: 0.04in; }
+  .min-half-ci { font-size: 0.12in; font-weight: 600; color: #1a1a2e; }
+  .min-half-ci .icon { color: #e8a020; }
+  .min-half-qr { display: flex; flex-direction: column; align-items: center; gap: 0.04in; flex-shrink: 0; }
+  .min-half-qr-wrap {
+    background: #1a1a2e; border-radius: 0.07in; padding: 0.05in;
+    width: 0.72in; height: 0.72in;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .min-half-qr-wrap canvas, .min-half-qr-wrap img { width: 100% !important; height: 100% !important; }
+  .min-half-qr-label { font-size: 0.09in; font-weight: 700; color: #888; letter-spacing: 0.05em; text-transform: uppercase; }
+
+  /* PRINT */
+  @media print {
+    body { background: none; padding: 0; gap: 0; }
+    .screen-ui, .screen-label, .divider, .print-btn { display: none !important; }
+    .flyer-community, .flyer-minimal, .flyer-community-half, .flyer-minimal-half {
+      box-shadow: none; page-break-after: always;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="screen-ui">
+  <strong>🖨️ Print Instructions</strong>
+  <p>Ctrl+P (Cmd+P on Mac) → Paper: Letter → Margins: None → Enable "Background graphics" → Print. Cut half-pages down the middle of a letter sheet.</p>
+  <button class="print-btn" onclick="window.print()">🖨️ Print All Flyers</button>
+</div>
+
+<!-- ================================ -->
+<!-- FLYER A FULL — COMMUNITY/INVITING -->
+<!-- ================================ -->
+<div>
+  <p class="screen-label">🌿 Version A — Community & Inviting — Full Page 8.5×11</p>
+  <div class="flyer-community">
+    <div class="comm-rays"></div>
+    <div class="comm-top-band"></div>
+
+    <div class="comm-header">
+      <div class="comm-logo-area">
+        <div class="comm-logo">Spark<span>Tutoring</span></div>
+        <div class="comm-tagline-small">Math & Science · Your Neighborhood Tutor</div>
+      </div>
+      <div class="comm-free-pill">✦ Free Intro Call</div>
+    </div>
+
+    <div class="comm-hero">
+      <div class="comm-headline">
+        Your kid<br/>
+        <span class="line2">can do this.</span><br/>
+        <span class="line3">Promise.</span>
+      </div>
+      <div class="comm-intro">
+        I help middle schoolers, high schoolers, and college students go from frustrated and stuck to confident and performing — one breakthrough at a time.
+      </div>
+    </div>
+
+    <div class="comm-story">
+      <div class="comm-story-icon">💬</div>
+      <div class="comm-story-text">
+        <strong>I've been in their shoes.</strong> I failed math in high school — then went on to become an electrical engineer. That turning point changed everything for me, and it's the reason I show up for every student I work with. I know exactly what it takes to get over that wall.
+      </div>
+    </div>
+
+    <div class="comm-checks">
+      <div class="comm-check"><div class="comm-check-icon">✓</div>Patient, encouraging approach</div>
+      <div class="comm-check"><div class="comm-check-icon">✓</div>Online & in-person sessions</div>
+      <div class="comm-check"><div class="comm-check-icon">✓</div>Math & science all levels</div>
+      <div class="comm-check"><div class="comm-check-icon">✓</div>Flexible scheduling</div>
+      <div class="comm-check"><div class="comm-check-icon">✓</div>Builds real confidence</div>
+      <div class="comm-check"><div class="comm-check-icon">✓</div>No long-term commitment</div>
+    </div>
+
+    <div class="comm-audience">
+      <div class="comm-aud-chip aud-mid">📐 Middle School</div>
+      <div class="comm-aud-chip aud-high">🔬 High School</div>
+      <div class="comm-aud-chip aud-col">🎓 College</div>
+    </div>
+
+    <div class="comm-footer">
+      <div class="comm-contact">
+        <div class="comm-contact-title">Get in touch</div>
+        <div class="comm-contact-grid">
+          <div class="comm-contact-item">📧 your@email.com</div>
+          <div class="comm-contact-item">📱 (555) 000-0000</div>
+          <div class="comm-contact-item">📷 @yourinstahandle</div>
+          <div class="comm-contact-item">🌐 yourusername.github.io</div>
+        </div>
+      </div>
+      <div class="comm-price-badge">
+        <div class="cpb-label">Sessions from</div>
+        <div class="cpb-prices">
+          <div>
+            <div class="cpb-price">$55</div>
+            <div class="cpb-sub">Online</div>
+          </div>
+          <div class="cpb-dot">·</div>
+          <div>
+            <div class="cpb-price">$65</div>
+            <div class="cpb-sub">In-Person</div>
+          </div>
+        </div>
+      </div>
+      <div class="comm-qr">
+        <div class="comm-qr-wrap" id="qr-comm-full"></div>
+        <div class="comm-qr-label">Scan to Book</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- ================================= -->
+<!-- FLYER A HALF — COMMUNITY/INVITING -->
+<!-- ================================= -->
+<div>
+  <p class="screen-label">🌿 Version A — Community & Inviting — Half Page 5.5×8.5</p>
+  <div class="flyer-community-half">
+    <div class="comm-half-band"></div>
+    <div class="comm-half-header">
+      <div class="comm-half-eyebrow">Math & Science Tutoring · Your Neighborhood Tutor</div>
+      <div class="comm-half-headline">
+        Your kid<br/><em>can do this.</em><br/>Promise.
+      </div>
+    </div>
+    <div class="comm-half-body">
+      <div class="comm-half-intro">
+        I help students go from frustrated and stuck to confident and performing — because I've been in their shoes. I failed math in high school before becoming an electrical engineer.
+      </div>
+      <div class="comm-half-checks">
+        <div class="comm-half-check"><div class="comm-half-check-dot">✓</div>Patient, encouraging approach that builds real confidence</div>
+        <div class="comm-half-check"><div class="comm-half-check-dot">✓</div>Math & science for all levels — middle school through college</div>
+        <div class="comm-half-check"><div class="comm-half-check-dot">✓</div>Online from $55 · In-person from $65 per session</div>
+        <div class="comm-half-check"><div class="comm-half-check-dot">✓</div>Free intro call — no commitment required</div>
+      </div>
+      <div class="comm-half-chips">
+        <span class="comm-half-chip aud-mid">📐 Middle School</span>
+        <span class="comm-half-chip aud-high">🔬 High School</span>
+        <span class="comm-half-chip aud-col">🎓 College</span>
+      </div>
+    </div>
+    <div class="comm-half-footer">
+      <div class="comm-half-contact">
+        <div class="comm-half-brand">Spark<span>Tutoring</span></div>
+        <div class="comm-half-items">
+          <div class="comm-half-item">📧 your@email.com</div>
+          <div class="comm-half-item">📱 (555) 000-0000</div>
+          <div class="comm-half-item">🌐 yourusername.github.io</div>
+        </div>
+      </div>
+      <div class="comm-half-qr">
+        <div class="comm-half-qr-wrap" id="qr-comm-half"></div>
+        <div class="comm-half-qr-label">Scan to Book</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- ==================================== -->
+<!-- FLYER B FULL — BOLD MINIMAL          -->
+<!-- ==================================== -->
+<div>
+  <p class="screen-label">⬜ Version B — Bold & Minimal — Full Page 8.5×11</p>
+  <div class="flyer-minimal">
+    <div class="min-stripe"></div>
+    <div class="min-corner"></div>
+    <div class="min-body">
+      <div class="min-top">
+        <div class="min-logo">Spark<span>●</span>Tutoring</div>
+        <div class="min-subject-tags">
+          <span class="min-stag">Math</span>
+          <span class="min-stag">Science</span>
+        </div>
+      </div>
+
+      <div class="min-headline">
+        FIND<br/>
+        <span class="hl-outline">YOUR</span><br/>
+        <span class="hl-gold">CLICK.</span>
+      </div>
+
+      <div class="min-rule"></div>
+
+      <div class="min-statement">
+        I help <strong>middle schoolers, high schoolers, and college students</strong> build real confidence and better grades in math and science — with patience, and methods that actually stick.
+      </div>
+
+      <div class="min-stats">
+        <div class="min-stat">
+          <div class="min-stat-num">$55<span>+</span></div>
+          <div class="min-stat-label">Online sessions<br/>per hour</div>
+        </div>
+        <div class="min-stat">
+          <div class="min-stat-num">$65<span>+</span></div>
+          <div class="min-stat-label">In-person sessions<br/>per hour</div>
+        </div>
+        <div class="min-stat">
+          <div class="min-stat-num">0<span>$</span></div>
+          <div class="min-stat-label">Cost of your<br/>intro call</div>
+        </div>
+      </div>
+
+      <div class="min-services">
+        <div class="min-service featured">
+          <div class="min-service-icon">📐</div>
+          <h3>Math Tutoring</h3>
+          <p>Algebra through Calculus. Build the foundation that lasts.</p>
+          <div class="min-service-price">From $55</div>
+        </div>
+        <div class="min-service">
+          <div class="min-service-icon">🔬</div>
+          <h3>Science Tutoring</h3>
+          <p>Biology, Chemistry, Physics. Concepts that finally make sense.</p>
+          <div class="min-service-price">From $55</div>
+        </div>
+        <div class="min-service">
+          <div class="min-service-icon">🎓</div>
+          <h3>All Levels</h3>
+          <p>Middle school through college. Meet students where they are.</p>
+          <div class="min-service-price">Free Intro</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="min-footer">
+      <div class="min-contact-row">
+        <div class="min-contact-item"><span class="icon">📧</span> your@email.com</div>
+        <div class="min-contact-item"><span class="icon">📱</span> (555) 000-0000</div>
+        <div class="min-contact-item"><span class="icon">🌐</span> yourusername.github.io</div>
+        <div class="min-contact-item"><span class="icon">📷</span> @yourinstahandle</div>
+      </div>
+      <div class="min-cta-block">
+        <div class="min-cta-text">
+          <div class="cta-big">Book Free Call</div>
+          <div class="cta-sub">Scan to get started</div>
+        </div>
+        <div class="min-qr">
+          <div class="min-qr-wrap" id="qr-min-full"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider"/>
+
+<!-- ==================================== -->
+<!-- FLYER B HALF — BOLD MINIMAL          -->
+<!-- ==================================== -->
+<div>
+  <p class="screen-label">⬜ Version B — Bold & Minimal — Half Page 5.5×8.5</p>
+  <div class="flyer-minimal-half">
+    <div class="min-half-stripe"></div>
+    <div class="min-half-body">
+      <div class="min-half-logo">Spark<span>●</span>Tutoring</div>
+      <div class="min-half-headline">
+        FIND<br/>
+        <span class="outline">YOUR</span><br/>
+        <span class="gold">CLICK.</span>
+      </div>
+      <div class="min-half-rule"></div>
+      <div class="min-half-statement">
+        I help <strong>students of all levels</strong> build real confidence and better grades in math and science — with patience and methods that actually stick.
+      </div>
+      <div class="min-half-prices">
+        <div class="min-half-price dark">
+          <div class="mhp-icon">🖥️</div>
+          <div class="mhp-num">$55</div>
+          <div class="mhp-type">Online / session</div>
+        </div>
+        <div class="min-half-price">
+          <div class="mhp-icon">📍</div>
+          <div class="mhp-num">$65</div>
+          <div class="mhp-type">In-person / session</div>
+        </div>
+        <div class="min-half-price">
+          <div class="mhp-icon">📞</div>
+          <div class="mhp-num" style="color:#2a7f6f;">$0</div>
+          <div class="mhp-type">Intro call</div>
+        </div>
+      </div>
+      <div class="min-half-tags">
+        <span class="min-half-tag">📐 Math</span>
+        <span class="min-half-tag">🔬 Science</span>
+        <span class="min-half-tag">Middle School</span>
+        <span class="min-half-tag">High School</span>
+        <span class="min-half-tag">College</span>
+        <span class="min-half-tag">Online & In-Person</span>
+      </div>
+    </div>
+    <div class="min-half-footer">
+      <div class="min-half-contact">
+        <div class="min-half-ci"><span class="icon">📧</span> your@email.com</div>
+        <div class="min-half-ci"><span class="icon">📱</span> (555) 000-0000</div>
+        <div class="min-half-ci"><span class="icon">🌐</span> yourusername.github.io</div>
+      </div>
+      <div class="min-half-qr">
+        <div class="min-half-qr-wrap" id="qr-min-half"></div>
+        <div class="min-half-qr-label">Scan to Book</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const YOUR_URL = "https://yourusername.github.io";
+
+  function makeQR(id, size, dark) {
+    new QRCode(document.getElementById(id), {
+      text: YOUR_URL,
+      width: size, height: size,
+      colorDark: dark || "#1a1a2e",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  }
+
+  window.addEventListener('load', () => {
+    makeQR("qr-comm-full",  90);
+    makeQR("qr-comm-half",  75);
+    makeQR("qr-min-full",   90, "#ffffff");
+    makeQR("qr-min-half",   72, "#ffffff");
+  });
+</script>
+</body>
+</html>
